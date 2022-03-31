@@ -17,7 +17,7 @@ export function askYesOrNo(
     } else if (str === 'n') {
       onNo();
     } else {
-      console.log(`'${str}' is not valid input\n`);
+      console.log(`'${str}' is not valid input`);
       askYesOrNo(prompt, onYes, onNo);
     }
   });
@@ -25,13 +25,18 @@ export function askYesOrNo(
 
 // Ask the user for a number
 export function askNumber(prompt: string, onNumber: (n: number) => void) {
-  rl.question(`${prompt} (Number) `, (str) => {
+  rl.question(`${prompt} (number)? `, (str) => {
     const n = Number.parseInt(str);
     if (!Number.isInteger(n)) {
-      console.log(`'${str}' is not a valid integer\n`);
+      console.log(`'${str}' is not a valid integer`);
       askNumber(prompt, onNumber);
     } else {
       onNumber(n);
     }
   });
+}
+
+// Exit
+export function exit() {
+  rl.close();
 }
