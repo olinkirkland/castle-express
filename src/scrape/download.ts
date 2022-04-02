@@ -2,8 +2,9 @@ import fs from 'fs';
 import https from 'https';
 import path from 'path';
 import ProgressBar from 'progress';
-import { askNumber, exit } from '../utils/ask';
+import { askNumber, askYesOrNo, exit } from '../utils/ask';
 import { ensureDirectoryExistence as ensureDirectoryExists } from '../utils/file';
+import { parse } from './parse';
 
 askNumber('Download from index', (indexBegin) => {
   askNumber('Download to index', (indexEnd) => {
@@ -76,5 +77,5 @@ function downloadEntries(indexBegin, indexEnd) {
 
 function onEntryDownloadComplete() {
   console.log('Downloads complete!');
-  exit();
+  askYesOrNo('Parse downloaded files', parse, exit);
 }
