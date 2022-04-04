@@ -2,8 +2,15 @@ import Translatable from './translatable';
 
 export default interface Castle {
   id?: string;
-  urls?: string[];
-  name?: Name;
+  urls?: {
+    history?: string;
+    properties?: string;
+    physical?: string;
+    tourism?: string;
+    references?: string;
+  };
+  name?: string;
+  nameSuffix?: string;
   slug?: string;
   location?: Location;
   classifications?: Translatable[];
@@ -13,11 +20,6 @@ export default interface Castle {
   conditionCommentary?: string;
   gallery?: GalleryImage[];
   dates?: { start: HistoryDate; end: HistoryDate };
-}
-
-export interface Name {
-  primary: string;
-  secondary: null | string;
 }
 
 export interface Location {
