@@ -60,20 +60,21 @@ export function parse() {
 }
 
 function parseCastle(u) {
-  const history = new jsdom.JSDOM(u.history);
-  const properties = new jsdom.JSDOM(u.properties);
-  const physical = new jsdom.JSDOM(u.physical);
-  const tourism = new jsdom.JSDOM(u.tourism);
-  const references = new jsdom.JSDOM(u.references);
+  const history = new jsdom.JSDOM(u.history).window.document;
+  const properties = new jsdom.JSDOM(u.properties).window.document;
+  const physical = new jsdom.JSDOM(u.physical).window.document;
+  const tourism = new jsdom.JSDOM(u.tourism).window.document;
+  const references = new jsdom.JSDOM(u.references).window.document;
 
   let castle: Castle = {};
 
   // Id & Urls
+  console.log('\nID: ', u.id);
   castle.id = makeId(u.id);
   castle.urls = makeUrls(u.id);
 
   // Name
-  const nameSuffixAndSlug = makeName(u.history);
+  const nameSuffixAndSlug = makeName(history);
   castle.name = nameSuffixAndSlug.name;
   castle.nameSuffix = nameSuffixAndSlug.suffix;
   castle.slug = nameSuffixAndSlug.slug;
@@ -111,12 +112,13 @@ function makeUrls(id: string) {
 }
 
 function makeName(history) {
-  let nameEl = history.window.document.querySelector('h2');
-  if (!nameEl) return null;
-  
+  let nameEl = history.querySelector('h2');
+
+  console.log(nameEl);
+
   let name: string = nameEl.textContent;
   let suffix: string = '';
   let slug: string = '';
 
-  return { name, suffix, slug };
+  return { name: name, suffix: suffix, slug: slug };
 }
